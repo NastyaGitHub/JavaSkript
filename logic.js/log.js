@@ -4,12 +4,12 @@ let board;
 
 function startGame() {
   board = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
+    ["", "", ""], // 00 01 02
+    ["", "", ""], // 10 11 12
+    ["", "", ""], // 20 21 22
   ];
 
-  activePlayer = players[0];
+  activePlayer = players[0]; // присвоение значения
   renderBoard(board);
 }
 
