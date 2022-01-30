@@ -1,30 +1,54 @@
-var t = new Array(9);
+let players = ["x", "o"];
+let activePlayer = 0;
+let board;
 
-function ai() {
-	var id = Math.floor(Math.random() * 9);
-	t[id] ? ai() : move(id, 'ai');
+function startGame() {
+  board = [
+    ["", "", ""], // 00 01 02
+    ["", "", ""], // 10 11 12
+    ["", "", ""], // 20 21 22
+  ];
+
+  activePlayer = players[0];  // присвоение значения
+  renderBoard(board);
 }
 
-function checkEnd() {
-	if (t[0]=='ai' && t[1]=='ai' && t[2]=='ai' || t[0]=='player' && t[1]=='player' && t[2]=='player') return true;
-	if (t[3]=='ai' && t[4]=='ai' && t[5]=='ai' || t[3]=='player' && t[4]=='player' && t[5]=='player') return true;
-	if (t[6]=='ai' && t[7]=='ai' && t[8]=='ai' || t[6]=='player' && t[7]=='player' && t[8]=='player') return true;
-	if (t[0]=='ai' && t[3]=='ai' && t[6]=='ai' || t[0]=='player' && t[3]=='player' && t[6]=='player') return true;
-	if (t[1]=='ai' && t[4]=='ai' && t[7]=='ai' || t[1]=='player' && t[4]=='player' && t[7]=='player') return true;
-	if (t[2]=='ai' && t[5]=='ai' && t[8]=='ai' || t[2]=='player' && t[5]=='player' && t[8]=='player') return true;
-	if (t[0]=='ai' && t[4]=='ai' && t[8]=='ai' || t[0]=='player' && t[4]=='player' && t[8]=='player') return true;
-	if (t[2]=='ai' && t[4]=='ai' && t[6]=='ai' || t[2]=='player' && t[4]=='player' && t[6]=='player') return true;
-	if (t[0] && t[1] && t[2] && t[3] && t[4] && t[5] && t[6] && t[7] && t[8]) return true;
-}
+function click(col, row) {
+  board[col][row] = activePlayer;
+  renderBoard(board);
 
-function move(id, role) {
-	if(t[id]) return false;
-	t[id] = role;
-	document.getElementById('id').className = 'call ' + role;
-	!checkEnd() ? (role == 'player') ? ai() : null : reset();
-}
-
-function reset() {
-	alert("Игра окончена!");
-	location.reload();
+  if (
+    (board[0][0] === activePlayer &&
+      board[0][1] === activePlayer &&
+      board[0][2] === activePlayer) ||
+    (board[1][0] === activePlayer &&
+      board[1][1] === activePlayer &&
+      board[1][2] === activePlayer) ||
+    (board[2][0] === activePlayer &&
+      board[2][1] === activePlayer &&
+      board[2][2] === activePlayer) ||
+    (board[0][0] === activePlayer &&
+      board[1][0] === activePlayer &&
+      board[2][0] === activePlayer) ||
+    (board[0][1] === activePlayer &&
+      board[1][1] === activePlayer &&
+      board[2][1] === activePlayer) ||
+    (board[0][2] === activePlayer &&
+      board[1][2] === activePlayer &&
+      board[2][2] === activePlayer) ||
+    (board[0][0] === activePlayer &&
+      board[1][1] === activePlayer &&
+      board[2][2] === activePlayer) ||
+    (board[0][2] === activePlayer &&
+      board[1][1] === activePlayer &&
+      board[2][0] === activePlayer)
+  ) {
+    showWinner(players.indexOf(activePlayer));
+  } else {
+    if (activePlayer === players[0]) {
+      activePlayer = players[1];
+    } else if ((activePlayer = players[1])) {
+      activePlayer = players[0];
+    }
+  }
 }
